@@ -12,5 +12,6 @@ TextStyle buttonTextStyle = GoogleFonts.inter(
     color: whiteColor, fontWeight: FontWeight.bold, fontSize: 16);
 TextStyle buttonTextTextStyle = GoogleFonts.inter(
     color: greenColor, fontWeight: FontWeight.bold, fontSize: 16);
+TextStyle commonTextStyle = GoogleFonts.inter(color: blackColor, fontSize: 14);
 
 double edge = 16;

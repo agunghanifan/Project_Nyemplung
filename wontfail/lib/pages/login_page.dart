@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:wontfail/pages/recovery_acc_page.dart';
+import "package:wontfail/pages/signup_page.dart";
 import "package:wontfail/themes.dart";
 
 class LoginPage extends StatefulWidget {
@@ -10,10 +12,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: whiteColor,
         body: SafeArea(
             bottom: false,
             child: Padding(
@@ -33,12 +37,12 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           children: [
                             TextFormField(
+                              autofocus: true,
                               decoration: InputDecoration(
                                   hintText: 'Email',
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide:
-                                          BorderSide(color: blackColor))),
+                                    borderRadius: BorderRadius.circular(8),
+                                  )),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter some text';
@@ -51,12 +55,28 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             TextFormField(
                               decoration: InputDecoration(
-                                  hintText: 'Password',
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide:
-                                          BorderSide(color: blackColor))),
-                              obscureText: true,
+                                hintText: 'Password',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                suffixIcon: TextButton(
+                                  onPressed: () {
+                                    print('trigger show');
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16, horizontal: 16),
+                                      child: Text(
+                                        'Show',
+                                        style: buttonTextTextStyle.copyWith(
+                                            fontWeight: FontWeight.w500),
+                                      )),
+                                ),
+                              ),
+                              obscureText: _isObscure,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter the Password';
@@ -75,15 +95,18 @@ class _LoginPageState extends State<LoginPage> {
                                   print('Trigger!');
                                   if (_formKey.currentState!.validate()) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                            content: Text('Processing Data')));
+                                      const SnackBar(
+                                        content: Text('Processing Data'),
+                                      ),
+                                    );
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: greenColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(100))),
+                                  backgroundColor: greenColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                ),
                                 child: Text(
                                   'Log In',
                                   style: buttonTextStyle,
@@ -95,14 +118,46 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 16,
                     ),
-                    TextButton(
-                        onPressed: () {
-                          print('Trigger Forgot password');
-                        },
-                        child: Text(
-                          'Forgot your password?',
-                          style: buttonTextTextStyle,
-                        ))
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) => FractionallySizedBox(
+                                      heightFactor: 0.95,
+                                      child: SignUpPage(
+                                        key: widget.key,
+                                      ),
+                                    ));
+                            print('Trigger Forgot password');
+                          },
+                          child: Text(
+                            'Sign Up',
+                            style: buttonTextTextStyle,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RecoveryAccountPage(
+                                  key: widget.key,
+                                ),
+                              ),
+                            );
+                            print('Trigger Forgot password');
+                          },
+                          child: Text(
+                            'Forgot your Password?',
+                            style: buttonTextTextStyle,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
