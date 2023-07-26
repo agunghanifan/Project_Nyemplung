@@ -13,6 +13,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
   bool _isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

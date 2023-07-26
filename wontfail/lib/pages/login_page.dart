@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                             const SizedBox(
-                              height: 167,
+                              height: 175,
                             ),
                             SizedBox(
                               height: 51,
