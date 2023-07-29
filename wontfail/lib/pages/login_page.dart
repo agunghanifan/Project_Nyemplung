@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:wontfail/pages/home_page.dart";
 import 'package:wontfail/pages/recovery_acc_page.dart';
 import "package:wontfail/pages/signup_page.dart";
 import "package:wontfail/themes.dart";
@@ -99,6 +100,12 @@ class _LoginPageState extends State<LoginPage> {
                                         content: Text('Processing Data'),
                                       ),
                                     );
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomePage(),
+                                        ));
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
