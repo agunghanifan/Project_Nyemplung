@@ -51,13 +51,44 @@ class _HomePageState extends State<HomePage> {
                 height: 16,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) => InkWell(
-                      onTap: () {
-                        print('enter contentHomeWidget!');
-                      },
-                      child: const ContentHomeWidget()),
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                  onTap: () {
+                                    print('enter contentHomeWidget!');
+                                  },
+                                  child: Column(
+                                    children: [
+                                      const ContentHomeWidget(),
+                                      index == 9
+                                          ? const SizedBox(
+                                              height: 70,
+                                            )
+                                          : const SizedBox()
+                                    ],
+                                  ));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          print('button floating');
+                        },
+                        child: const Text('TEST'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
