@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wontfail/themes.dart';
-
-import '../widgets/content_home_widget.dart';
+import 'package:wontfail/widgets/home_widget.dart';
+import 'package:wontfail/widgets/progress_widget.dart';
+import 'package:wontfail/widgets/settings_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +12,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _formKey = GlobalKey<FormState>();
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = [
+    HomeWidget(),
+    ProgressWidget(),
+    SettingsWidget()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    print('Now in index = $_selectedIndex');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,81 +34,13 @@ class _HomePageState extends State<HomePage> {
         bottom: false,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: edge),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 32,
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'My Journal',
-                  style: titleTextStyle,
-                ),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Form(
-                key: _formKey,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: 10,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                  onTap: () {
-                                    print('enter contentHomeWidget!');
-                                  },
-                                  child: Column(
-                                    children: [
-                                      const ContentHomeWidget(),
-                                      index == 9
-                                          ? const SizedBox(
-                                              height: 70,
-                                            )
-                                          : const SizedBox()
-                                    ],
-                                  ));
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          print('button floating');
-                        },
-                        child: const Text('TEST'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.red,
         items: [
           BottomNavigationBarItem(
               icon: Image.asset(
